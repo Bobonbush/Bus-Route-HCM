@@ -22,7 +22,7 @@ class RouteVarQuery :
         
         
         for line in file : 
-            data = json.loads(line);
+            data = json.loads(line); 
             for item in data :
                 routevar = RouteVar.RouteVar(item['RouteId'], item['RouteVarId'], item['RouteVarName'], item['RouteVarShortName'], item['RouteNo'], item['StartStop'], item['EndStop'], item['Distance'], item['Outbound'], item['RunningTime'])
                 self.routeVars.append(routevar)
