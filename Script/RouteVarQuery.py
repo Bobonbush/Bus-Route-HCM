@@ -8,8 +8,8 @@ import csv
 class RouteVarQuery : 
     
     field = ['Route Id', ' Route Var Id', 'Route Var Name', 'Route Var Short Name', 'Route No', 'Start Stop', 'End Stop', 'Distance', 'Outbound', 'Running Time']
-    csvFile = "vars.csv"   # csv Output 
-    jsonFile = "vars.json"  # json Output
+    csvFile = "OutputCsv/vars.csv"   # csv Output 
+    jsonFile = "OutputJson/vars.json"  # json Output
     
 
     def __init__(self):
@@ -126,10 +126,16 @@ class RouteVarQuery :
             print(item.Outbound)
             print(item.RunningTime)
             print("\n")
-    def SearchByAnything(self, information, value):
+    def SearchByAnything(self, **kwargs):
         list = []
         for item in self.routeVars:
-            if str(item.properties[information]) == str(value):
+            ok = True    
+            for key,value in kwargs.items():
+                if str(item.properties[key]) == str(value):
+                    continue
+                ok = False
+                
+            if(ok == True):
                 list.append(item)
         return list
 

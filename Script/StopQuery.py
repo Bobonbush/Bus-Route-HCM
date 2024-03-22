@@ -3,8 +3,8 @@ import json
 import csv
 
 class StopQuery :
-    csvfile = "stops.csv"
-    jsonfile = "stops.json"
+    csvfile = "OutputCsv/stops.csv"
+    jsonfile = "OutputJson/stops.json"
     field = ['StopId', 'Code', 'Name', 'StopType', 'Zone', 'Ward', 'AddressNo', 'Street', 'SupportDisability', 'Status', 'Lng', 'Lat', 'Search', 'Routes']
     def __init__(self):
         self.stops = []
@@ -37,14 +37,22 @@ class StopQuery :
             print(item.Search)
             print(item.Routes)
     
-    def SearchByAnything(self, information, value):
+    def SearchByAnything(self, **kwargs):
         list = []
         for item in self.stops:
-            if str(item.properties[information]) == str(value):
+            ok = True
+            for key, value in kwargs.items():
+                if str(item.properties[key]) == str(value):
+                    continue
+                ok = False
+            if(ok):
                 list.append(item)
-        print(list.__len__())
         return list
     
+
+
+
+
     def SearchByStopId(self, StopId):
         list = []
         for item in self.stops:
