@@ -1,5 +1,6 @@
 from RouteVarQuery import RouteVarQuery
 from StopQuery import StopQuery
+from Path import Path
 
 
 
@@ -7,12 +8,12 @@ class Program :
     def __init__(self):
         self.QueryAnswer = RouteVarQuery()   
         self.StopAnwer = StopQuery()
-        
+        self.Path = Path()
         
     def run(self):
         self.QueryAnswer.load_from_json()
         self.StopAnwer.load_from_json()
-
+        self.Path.load_from_json()
         while(True) :
             statement = input( 'Route Var (1) /  Stops (2) / quit (3) : ' )
             if(statement == '1'):
@@ -23,6 +24,9 @@ class Program :
                 continue
             elif(statement == '3'):
                 break
+            elif(statement == '4'):
+                self.Path.DebugOutput()
+                continue
             print("invalid input")
             
     
