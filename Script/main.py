@@ -6,15 +6,23 @@ from Path import Path
 
 class Program :
     def __init__(self):
-        self.QueryAnswer = RouteVarQuery()   
-        self.StopAnwer = StopQuery()
-        self.Path = Path()
+        self.VarQueryAnswer = RouteVarQuery()   
+        self.StopQueryAnswer = StopQuery()
         
     def run(self):
-        self.QueryAnswer.load_from_json()
-        self.StopAnwer.load_from_json()
-        self.Path.load_from_json()
-        self.Path.DebugOutput()
+        self.VarQueryAnswer.load_from_json()
+        self.StopQueryAnswer.load_from_json()
+       
+        self.VarQueryAnswer.outputAsCSV(self.VarQueryAnswer.routeVars)
+       
+        list = self.VarQueryAnswer.SearchByAnything(RouteId = 1)
+        self.VarQueryAnswer.outputAsJSON(self.VarQueryAnswer.routeVars)
+
+
+        self.StopQueryAnswer.outputAsCSV(self.StopQueryAnswer.stop)
+
+        self.StopQueryAnswer.outputAsJSON(self.StopQueryAnswer.stop)
+
 
 
 def main() :

@@ -1,5 +1,5 @@
 class Stop :
-    def __init__(self, StopId, Code, Name, StopType, Zone, Ward, AddressNo, Street, SupportDisability, Status, Lng, Lat, Search, Routes):
+    def __init__(self, StopId, Code, Name, StopType, Zone, Ward, AddressNo, Street, SupportDisability, Status, Lng, Lat, Search, Routes , RouteId , RouteVarId):
         self.properties = {}
         self.properties['StopId'] = StopId
         self.properties['Code'] = Code
@@ -15,7 +15,8 @@ class Stop :
         self.properties['Lat'] = Lat
         self.properties['Search'] = Search
         self.properties['Routes'] = Routes
-    
+        self.properties['RouteId'] = RouteId
+        self.properties['RouteVarId'] = RouteVarId
     @property
     def StopId(self):
         return self.properties['StopId']
@@ -128,3 +129,20 @@ class Stop :
     def Routes(self , routes):
         self.properties['Routes'] = routes
     
+    @property
+    def RouteId(self):
+        return self.properties['RouteId']
+    
+    @RouteId.setter
+    def RouteId(self , routeId):
+        self.properties['RouteId'] = routeId
+
+    @property
+    def RouteVarId(self):
+        return self.properties['RouteVarId']
+    
+    @RouteVarId.setter
+    def RouteVarId(self , routeVarId):
+        self.properties['RouteVarId'] = routeVarId
+
+

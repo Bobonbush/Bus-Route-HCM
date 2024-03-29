@@ -55,7 +55,7 @@ class PathQuery:
         for item in self.path:
             ok = True
             for key, value in kwargs.items():
-                if item.properties[key] != value:
+                if str(item.properties[key]).lower() != str(value).lower():
                     ok = False
                     break
             if ok:
