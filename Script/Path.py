@@ -1,5 +1,3 @@
-import pyproj
-import json
 import math
 
 
@@ -25,30 +23,39 @@ class Point :
 
     def y(self, y):
         self._y = y
-class Path :
 
-    R = 6371.0 # radius of the earth in km
-    def __init__(self) :
-        self.points = []
+
+class Path :
+    
+    def __init__(self, RouteId, RouteVarId) :
+        self.points = [] 
+        self.properties ['RouteId'] = RouteId
+        self.properties['RouteVarId'] = RouteVarId
+    
+    @property 
+    def RouteId(self):
+        return self.properties['RouteId']
+    
+    @RouteId.setter
+    def RouteId(self, RouteId):
+        self.properties['RouteId'] = RouteId
     
 
+    @property
+    def RouteVarId(self):
+        return self.properties['RouteVarId']
+    
+    @RouteVarId.setter
+    def RouteVarId(self, RouteVarId) :
+        self.properties['RouteVarId'] = RouteVarId
+    
 
-    def load_from_json(self):
-
-        file = open('Json/paths.json', encoding= 'utf-8' )
-        for line in file : 
-            data = json.loads(line); 
-            for item in data :
-                lat = item['Lat']
-                lng = item['Lng']
-                xCoord = [(Path.R * math.radians(longtitude - lng[0])) for longtitude in lng]
-                yCoord = [(Path.R * math.log(math.tan(math.pi/4 + math.radians(latitude)/2))) for latitude in lat]
-                for x, y in zip(xCoord , yCoord):
-                    point = Point(x, y)
-                    self.points.append(point)
-        file.close()
+    
 
     def DebugOutput(self):
+        
         for item in self.points:
-            print(item.x)
+            print(item.x , end = ' ')
             print(item.y)
+
+    
