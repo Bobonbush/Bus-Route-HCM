@@ -71,10 +71,8 @@ class StopQuery :
     
     
     def StopWorking(self):
-        print("Stop Working")
         StopQuery.jsonfile.close()
         StopQuery.csvfile.close()
-        exit()
 
 
 

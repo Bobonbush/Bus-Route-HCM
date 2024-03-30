@@ -78,8 +78,6 @@ class RouteVarQuery :
     
 
 
-    def stopWorking(self):
-        print("Program has stopped working")
+    def StopWorking(self):
         RouteVarQuery.jsonFile.close()
         RouteVarQuery.csvFile.close()
-        exit()

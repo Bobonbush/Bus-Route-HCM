@@ -37,5 +37,8 @@ class Path:
     @RouteVarId.setter
     def RouteVarId(self , RouteVarId):
         self.properties['RouteVarId'] = RouteVarId
+    
+
+    
 
     

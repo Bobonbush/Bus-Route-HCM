@@ -13,7 +13,8 @@ class PathQuery :
         self.path = []
         PathQuery.csvFile = open(PathQuery.csvFile, 'w' , newline = '', encoding= 'utf-8')
         PathQuery.jsonFile = open(PathQuery.jsonFile, 'w' , encoding= 'utf-8')
-    
+
+
 
     def load_from_json(self):
         file = open('Json/paths.json', encoding= 'utf-8' )
@@ -53,6 +54,90 @@ class PathQuery :
             json.dump(item.properties, PathQuery.jsonFile, ensure_ascii=False)
             PathQuery.jsonFile.write('\n')
 
+    def drawPoint(self, list):
+        with open("OutputJson/Geojson.json", 'w' , encoding= 'utf-8') as file :
+            
+            points = []
+            for item in list :
+                for (longitude, latitude) in zip(item.lng, item.lat):
+                    points.append({
+                            "type": "Point",
+                            "coordinates": [longitude, latitude]
+                    })
+            geojson = {
+                "type": "FeatureCollection",
+                "features": [
+                    {
+                        "type": "Feature",
+                        "geometry": point,
+                        "properties": {}  # You can add properties if needed
+                    }
+                    for point in points
+                ]
+            }
+            json.dump(geojson , file , ensure_ascii=False)
+            
+            file.close()
+
+    def drawLineString(self, list):
+        with open("OutputJson/Geojson.json", 'w' , encoding= 'utf-8') as file :
+            
+            points = []
+            for item in list :
+                coord = []
+                for (longitude, latitude) in zip(item.lng, item.lat):
+                    coord.append([longitude, latitude])
+                points.append({
+                        "type": "LineString",
+                        "coordinates": coord
+                })
+            geojson = {
+                "type": "FeatureCollection",
+                "features": [
+                    {
+                        "type": "Feature",
+                        "geometry": point,
+                        "properties": {}  # You can add properties if needed
+                    }
+                    for point in points
+                ]
+            }
+            json.dump(geojson , file , ensure_ascii=False)
+            
+            file.close()
+
+
+    
+    def drawPolygon(self, list):
+        with open("OutputJson/Geojson.json", 'w' , encoding= 'utf-8') as file :
+            
+            points = []
+            for item in list :
+                coord = []
+                for (longitude, latitude) in zip(item.lng, item.lat):
+                    coord.append([longitude, latitude])
+                points.append({
+                        "type": "Polygon",
+                        "coordinates": [coord]
+                })
+            geojson = {
+                "type": "FeatureCollection",
+                "features": [
+                    {
+                        "type": "Feature",
+                        "geometry": point,
+                        "properties": {}  # You can add properties if needed
+                    }
+                    for point in points
+                ]
+            }
+            json.dump(geojson , file , ensure_ascii=False)
+            
+            file.close()
+        
+
+
+
 
     def OutputDebug(self):
         for item in self.path:
@@ -60,3 +145,9 @@ class PathQuery :
             print(item.lng)
             print(item.RouteId)
             print(item.RouteVarId)
+
+    def StopWorking(self):
+        PathQuery.csvFile.close()
+        PathQuery.jsonFile.close()
+
+        
