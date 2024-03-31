@@ -2,6 +2,7 @@ from Path import Path
 import json
 import csv
 from shapely.geometry import *
+from geospatial import RTreeQuery
 
 
 class PathQuery :
@@ -9,13 +10,13 @@ class PathQuery :
     field = ['lat', 'lng', 'RouteId', 'RouteVarId']
     jsonFile = 'OutputJson/Path.json'
     csvFile = 'OutputCsv/Path.csv'
-
+    
     def __init__(self):
         self.path = []
         PathQuery.csvFile = open(PathQuery.csvFile, 'w' , newline = '', encoding= 'utf-8')
         PathQuery.jsonFile = open(PathQuery.jsonFile, 'w' , encoding= 'utf-8')
-
-
+        self.index = RTreeQuery()
+ 
 
     def load_from_json(self):
         file = open('Json/paths.json', encoding= 'utf-8' )
@@ -29,6 +30,37 @@ class PathQuery :
             
             self.path.append(Path(lat, lng, RouteId, RouteVarId))
         file.close()
+        self.LoadDatatoRTree() ## Load data to RTree
+
+
+                 
+
+    def LoadDatatoRTree(self):
+        data_points = []
+        for item in self.path:
+            for (latitude, longitude) in zip(item.lat, item.lng):
+                data_points.append((latitude, longitude))
+        self.index.Insert(data_points)
+
+
+    def SearchPointsRange(self, lat1, lng1, lat2, lng2):        # [(lat1, lng1) to (lat2 ,lng2)]
+        return self.index.Search(lat1, lng1, lat2, lng2)
+    
+    def SearchNearstPoint(self, lat, lng , num):
+        return self.index.NearstPoint(lat, lng , num)
+    
+    def ConvertFromIndextoCoordinates(self , list):
+        points = []
+        for item in list:
+            points.append(self.index.values[item])
+        
+        return points
+
+    
+
+
+
+
 
     def SearchByAnything(self, **kwargs):
         list = []
@@ -135,6 +167,7 @@ class PathQuery :
             json.dump(geojson , file , ensure_ascii=False)
             
             file.close()
+    
 
 
     def getPolygon(self, list):
@@ -145,6 +178,8 @@ class PathQuery :
         points = Polygon(points).buffer(0)
 
         return points
+    
+
 
         
 

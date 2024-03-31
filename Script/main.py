@@ -3,6 +3,7 @@ from StopQuery import StopQuery
 from PathQuery import PathQuery
 from geospatial import geospatial
 from shapely.geometry import *
+from rtree import index
 
 
 
@@ -56,7 +57,12 @@ class Program :
 
         difference = geospatial.DifferencePolygons(polygon1, polygon2)
         geospatial.DrawPolygon(difference)
+
+
+        #print(self.PathQueryAnswer.ConvertFromIndextoCoordinates(self.PathQueryAnswer.SearchPointsRange(10, 0,11, 107)))
         
+        
+        print(self.PathQueryAnswer.ConvertFromIndextoCoordinates(self.PathQueryAnswer.SearchNearstPoint(10, 0 , 3)))
 
 
         #Close all the files after doing query
