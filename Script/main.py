@@ -6,27 +6,33 @@ from shapely.geometry import *
 from rtree import index
 
 
-
 class Program :
     def __init__(self):
         self.VarQueryAnswer = RouteVarQuery()   
         self.StopQueryAnswer = StopQuery()
         self.PathQueryAnswer = PathQuery()
+        
 
         geospatial.init()
-
-
         
-    def run(self):
+        
+
+
         self.VarQueryAnswer.load_from_json()
         self.StopQueryAnswer.load_from_json()
         self.PathQueryAnswer.load_from_json()
 
 
+
+        
+    def run(self):
+
         self.VarQueryAnswer.outputAsCSV(self.VarQueryAnswer.routeVars)
        
         list = self.VarQueryAnswer.SearchByAnything(RouteId = 1)
         self.VarQueryAnswer.outputAsJSON(self.VarQueryAnswer.routeVars)
+
+        
 
 
         self.StopQueryAnswer.outputAsCSV(self.StopQueryAnswer.stop)
@@ -69,6 +75,14 @@ class Program :
         self.PathQueryAnswer.StopWorking()
         self.StopQueryAnswer.StopWorking()
         self.VarQueryAnswer.StopWorking()
+
+
+                
+            
+
+            
+            
+            
         
 
 def main() :

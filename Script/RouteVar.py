@@ -1,15 +1,5 @@
 class RouteVar : 
     def __init__(self , RouteId, RouteVarId, RouteVarName, RouteVarShortName, RouteNo, StartStop, EndStop, Distance, Outbound, RunningTime):
-        self._RouteId = RouteId
-        self._RouteVarId = RouteVarId
-        self._RouteVarName = RouteVarName
-        self._RouteVarShortName = RouteVarShortName
-        self._RouteNo = RouteNo
-        self._StartStop = StartStop
-        self._EndStop = EndStop
-        self._Distance = Distance
-        self._Outbound = Outbound
-        self._RunningTime = RunningTime
 
         self.properties = {}
         self.properties['RouteId'] = RouteId
@@ -25,83 +15,88 @@ class RouteVar :
     
     @property
     def RouteId(self):
-        return self._RouteId
+        return self.properties['RouteId']
     
     @RouteId.setter
-    def RouteId(self , routeId):
-        self._RouteId = routeId
+    def RouteId(self , RouteId):
+        self.properties['RouteId'] = RouteId
     
     @property
     def RouteVarId(self):
-        return self._RouteVarId
+        return self.properties['RouteVarId']
     
     @RouteVarId.setter
-    def RouteVarId(self , routeVarId):
-        self._RouteVarId = routeVarId
-    
+    def RouteVarId(self , RouteVarId):
+        self.properties['RouteVarId'] = RouteVarId
+
     @property
     def RouteVarName(self):
-        return self._RouteVarName 
-
+        return self.properties['RouteVarName']
+    
     @RouteVarName.setter
-    def RouteVarName(self , routeVarName):
-        self._RouteVarName = routeVarName
+    def RouteVarName(self , RouteVarName):
+        self.properties['RouteVarName'] = RouteVarName
 
     @property
     def RouteVarShortName(self):
-        return self._RouteVarShortName
-
+        return self.properties['RouteVarShortName']
+    
     @RouteVarShortName.setter
-    def RouteVarShortName(self, routeVarShortName):
-        self._RouteVarShortName = routeVarShortName
+    def RouteVarShortName(self , RouteVarShortName):
+        self.properties['RouteVarShortName'] = RouteVarShortName
 
     @property
     def RouteNo(self):
-        return self._RouteNo
-
+        return self.properties['RouteNo']
+    
     @RouteNo.setter
-    def RouteNo(self, routeNo):
-        self._RouteNo = routeNo
 
+    def RouteNo(self , RouteNo):
+        self.properties['RouteNo'] = RouteNo
+    
     @property
     def StartStop(self):
-        return self._StartStop
-
+        return self.properties['StartStop']
+    
     @StartStop.setter
-    def StartStop(self, startStop):
-        self._StartStop = startStop
-
+    def StartStop(self , StartStop):
+        self.properties['StartStop'] = StartStop
+    
     @property
     def EndStop(self):
-        return self._EndStop
-
+        return self.properties['EndStop']
+    
     @EndStop.setter
-    def EndStop(self, endStop):
-        self._EndStop = endStop
-
+    def EndStop(self , EndStop):
+        self.properties['EndStop'] = EndStop
+    
     @property
     def Distance(self):
-        return self._Distance
-
+        return self.properties['Distance']
+    
     @Distance.setter
-    def Distance(self, distance):
-        self._Distance = distance
+    def Distance(self , Distance):
+        self.properties['Distance'] = Distance
 
     @property
     def Outbound(self):
-        return self._Outbound
-
+        return self.properties['Outbound']
+    
     @Outbound.setter
-    def Outbound(self, outbound):
-        self._Outbound = outbound
+    def Outbound(self , Outbound):
+        self.properties['Outbound'] = Outbound
 
     @property
     def RunningTime(self):
-        return self._RunningTime
+        return self.properties['RunningTime']
     
     @RunningTime.setter
-    def RunningTime(self, runningTime):
-        self._RunningTime = runningTime
+    def RunningTime(self , RunningTime):
+        self.properties['RunningTime'] = RunningTime
+
+    
+
+    
 
     
 
