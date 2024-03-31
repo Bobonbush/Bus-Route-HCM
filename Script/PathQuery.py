@@ -1,6 +1,7 @@
 from Path import Path
 import json
 import csv
+from shapely.geometry import *
 
 
 class PathQuery :
@@ -134,6 +135,17 @@ class PathQuery :
             json.dump(geojson , file , ensure_ascii=False)
             
             file.close()
+
+
+    def getPolygon(self, list):
+        points = []
+        for item in list :
+            for (longitude, latitude) in zip(item.lng, item.lat):
+                points.append([longitude, latitude])
+        points = Polygon(points).buffer(0)
+
+        return points
+
         
 
 

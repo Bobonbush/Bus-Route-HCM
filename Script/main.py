@@ -2,6 +2,7 @@ from RouteVarQuery import RouteVarQuery
 from StopQuery import StopQuery
 from PathQuery import PathQuery
 from geospatial import geospatial
+from shapely.geometry import *
 
 
 
@@ -39,8 +40,24 @@ class Program :
         print(geospatial.TransformLatLngToXY(55.0, 12.0))
         print(geospatial.TransformXYToLatLng(308124.3678603405 ,6098907.825005012 ))
 
-    
-        self.PathQueryAnswer.drawPolygon(self.PathQueryAnswer.path)
+        
+        
+        polygon1 = self.PathQueryAnswer.getPolygon([self.PathQueryAnswer.path[0]])
+        polygon2 = self.PathQueryAnswer.getPolygon([self.PathQueryAnswer.path[2]])
+
+        
+        union = geospatial.UnionPolygons(polygon1, polygon2)
+        geospatial.DrawPolygon(union)
+
+
+        intersect = geospatial.IntersectPolygons(polygon1, polygon2)
+        geospatial.DrawPolygon(intersect)
+
+
+        difference = geospatial.DifferencePolygons(polygon1, polygon2)
+        geospatial.DrawPolygon(difference)
+        
+
 
         #Close all the files after doing query
         self.PathQueryAnswer.StopWorking()
