@@ -16,7 +16,8 @@ class Program :
         
     def run(self):
         self.graph.LoadGraph()
-
+        self.graph.AllPairShortestPath()
+        self.graph.PrintTopImportant(20)
 
                 
             
