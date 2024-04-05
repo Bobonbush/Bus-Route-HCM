@@ -64,6 +64,12 @@ class Graph :
         self.RouteVarList = []
 
         self.cnt = []
+
+        self.path = {}
+
+        self.distance = {}
+
+        
         
     
 
@@ -74,6 +80,8 @@ class Graph :
 
         for stop in self.stopQuery.stop:
             self.vertices[stop.StopId] = []
+            self.path[stop.StopId] = []
+            self.distance[stop.StopId] = []
         
 
         for (RouteId, RouteVarId) in self.RouteVarList:
@@ -131,6 +139,7 @@ class Graph :
                 self.vertices[StopList[i-1].StopId].append(EdgeInfo(StopList[i].StopId, Path(pathLat, pathLng,RouteId,  RouteVarId), Time, Distance))
             
             self.cnt = {node : 0 for node in self.vertices}
+        cnt = 0;
     
 
     
@@ -140,6 +149,10 @@ class Graph :
         
         cntPrev = {node: 0 for node in self.vertices}
         cntAfter = {node: 0 for node in self.vertices}
+        path = {}
+
+        for node in self.vertices:
+            path[node] = []
 
         pq = [(0, start)]
 
@@ -158,6 +171,7 @@ class Graph :
                     Time[edge.Destination] = TimeCost
                     heapq.heappush(pq, (TimeCost, edge.Destination))
                     cntPrev[edge.Destination] = cntPrev[current_vertex]
+                    path[edge.Destination] = [edge.path , current_vertex]
                 elif TimeCost == Time[edge.Destination]:
                     cntPrev[edge.Destination] += cntPrev[current_vertex]
     
@@ -186,9 +200,15 @@ class Graph :
             assert(cntPrev[node] >= 1)
             assert(cntAfter[node] >= 1)
             self.cnt[node] += cntPrev[node] * cntAfter[node] 
+        
+        distancelist = []
+        for(node, value) in Time.items():
+            if(value == float('inf')):
+                continue
+            distancelist.append((value, node))
 
-        return Time
-    
+        self.path[start] = path
+        self.distance[start] = distancelist
     
     
 
@@ -205,12 +225,17 @@ class Graph :
 
 
         for stop, value in self.vertices.items():
-            distance = self.Dijktra(stop)
-            for stopDestinate, Time in distance.items():
-                if(Time == float('inf') or stop == stopDestinate):
-                    continue
-                csvfilewriter.writerow([stop, stopDestinate, Time])
+            self.Dijktra(stop)
+        
+        for stop,value in self.distance.items():
+            for node in value:
+                csvfilewriter.writerow([stop, node[1], node[0]])
+
+
         AllShortestPairFile.close()
+            
+
+
 
         cnt = self.cnt
         
@@ -225,6 +250,30 @@ class Graph :
         k = min(k , len(self.cnt)-1)
         for i in range(k):
             print(self.cnt[i][1], self.cnt[i][0])
+
+    
+
+    def PathBetweenTwoStop(self, StopA , StopB):
+        #Choose StopA as the source
+        if(StopB not in self.vertices):
+            print("Stop B is not in the graph")
+            return
+        if(StopA not in self.vertices):
+            print("Stop A is not in the graph")
+            return
+        u = StopB
+        path = []
+        while(u != StopA):
+            path.append(self.path[StopA][u][0])
+            u = self.path[StopA][u][1]
+
+        path.reverse()
+        self.pathQuery.drawLineString(path)
+        path = []
+        path.append(self.stopQuery.SearchByAnything(StopId = StopA)[0])
+        path.append(self.stopQuery.SearchByAnything(StopId = StopB)[0])
+
+        self.stopQuery.drawPoint(path)
     
 
     
