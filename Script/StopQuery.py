@@ -32,6 +32,32 @@ class StopQuery :
             if(ok):
                 list.append(item)
         return list
+    
+
+    @staticmethod
+    def drawPoint(list):
+        with open("OutputJson/Geojson.json", 'w' , encoding= 'utf-8') as file :
+            
+            points = []
+            for item in list :
+                    points.append({
+                            "type": "Point",
+                            "coordinates": [item.Lng, item.Lat]
+                    })
+            geojson = {
+                "type": "FeatureCollection",
+                "features": [
+                    {
+                        "type": "Feature",
+                        "geometry": point,
+                        "properties": {}  # You can add properties if needed
+                    }
+                    for point in points
+                ]
+            }
+            json.dump(geojson , file , ensure_ascii=False)
+            
+            file.close()
 
     def outputAsCSV(self, list):
         

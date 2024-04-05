@@ -1,3 +1,5 @@
+
+
 class Path:
     def __init__(self , lat , lng ,  RouteId, RouteVarId):
         self.properties = {}
@@ -37,6 +39,7 @@ class Path:
     @RouteVarId.setter
     def RouteVarId(self , RouteVarId):
         self.properties['RouteVarId'] = RouteVarId
+    
     
 
     

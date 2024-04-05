@@ -3,6 +3,7 @@ from shapely.geometry import *
 import json
 from rtree import index
 from shapely.ops import nearest_points
+import math
 
 
 class geospatial :
@@ -10,20 +11,31 @@ class geospatial :
     @staticmethod
     def init():
         geospatial.LatLngCRS = pyproj.CRS("EPSG:4326")
-        geospatial.XYCRS = pyproj.CRS("EPSG:3045")
+        geospatial.XYCRS = pyproj.CRS("EPSG:3405")
+        geospatial.TransformerXYtoLatLng = pyproj.Transformer.from_crs(geospatial.XYCRS, geospatial.LatLngCRS, always_xy=True)
+        geospatial.TransformerLatLngToXY = pyproj.Transformer.from_crs(geospatial.LatLngCRS, geospatial.XYCRS, always_xy=True)
         
 
     @staticmethod
     def TransformLatLngToXY(lat , lng ):
-        transformer = pyproj.Transformer.from_crs(geospatial.LatLngCRS, geospatial.XYCRS, always_xy=True)
-        x, y = transformer.transform(lng, lat)
+        x, y = geospatial.TransformerLatLngToXY.transform(lng, lat)
         return x,y
+    
     
     @staticmethod
     def TransformXYToLatLng(x , y ):
-        transformer = pyproj.Transformer.from_crs(geospatial.XYCRS, geospatial.LatLngCRS, always_xy=True)
-        lat, lng = transformer.transform(x, y)
+        lat, lng = geospatial.TransformerXYtoLatLng.transform(x, y)
         return lat,lng
+    
+    @staticmethod
+    def Distance(x , y):
+        return math.sqrt((x[0] - y[0] ) ** 2 + (x[1] - y[1]) ** 2) 
+    
+    @staticmethod
+    def TimeTravel(Velocity , Distance):
+        return Distance / Velocity
+
+
     @staticmethod
     def UnionPolygons(polygon1, polygon2):
         return polygon1.union(polygon2)
@@ -60,7 +72,7 @@ class RTreeQuery:
     
 
     def Delete(self, id):
-        self.idx.delete(id)
+        self.idx.delete(2)
     
 
     def Search(self, min_longitude, min_latitude, max_longitude, max_latitude):

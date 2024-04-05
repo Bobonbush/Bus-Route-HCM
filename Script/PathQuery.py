@@ -87,7 +87,8 @@ class PathQuery :
             json.dump(item.properties, PathQuery.jsonFile, ensure_ascii=False)
             PathQuery.jsonFile.write('\n')
 
-    def drawPoint(self, list):
+    @staticmethod
+    def drawPoint(list):
         with open("OutputJson/Geojson.json", 'w' , encoding= 'utf-8') as file :
             
             points = []
@@ -112,7 +113,9 @@ class PathQuery :
             
             file.close()
 
-    def drawLineString(self, list):
+            
+    @staticmethod
+    def drawLineString(list):
         with open("OutputJson/Geojson.json", 'w' , encoding= 'utf-8') as file :
             
             points = []
